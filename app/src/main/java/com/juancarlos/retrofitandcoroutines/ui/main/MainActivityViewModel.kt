@@ -3,6 +3,7 @@ package com.juancarlos.retrofitandcoroutines.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.juancarlos.retrofitandcoroutines.Constants
 import com.juancarlos.retrofitandcoroutines.R
 import com.juancarlos.retrofitandcoroutines.data.PhotosRepository
@@ -18,14 +19,16 @@ class MainActivityViewModel(private val repository: PhotosRepository): ViewModel
 
     fun getData() {
         loadStatus.value = Constants.STATUS_LOADING
-        GlobalScope.launch {
-            try {
-                val userData = repository.getPhotosList()
-                photosList.postValue(userData)
-                loadStatus.postValue(Constants.STATUS_COMPLETE)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                loadStatus.postValue(Constants.STATUS_ERROR)
+        viewModelScope.launch {
+            withContext(Dispatchers.Default) {
+                try {
+                    val userData = repository.getPhotosList()
+                    photosList.postValue(userData)
+                    loadStatus.postValue(Constants.STATUS_COMPLETE)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    loadStatus.postValue(Constants.STATUS_ERROR)
+                }
             }
         }
 
