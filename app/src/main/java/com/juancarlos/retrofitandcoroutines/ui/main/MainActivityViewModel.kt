@@ -17,17 +17,19 @@ class MainActivityViewModel(private val repository: PhotosRepository): ViewModel
     private val photosList = MutableLiveData<List<PhotosModel>>()
     private val loadStatus = MutableLiveData(0)
 
-    fun getData() {
-        loadStatus.value = Constants.STATUS_LOADING
+    fun getData(status:Int) {
+        if (status != Constants.STATUS_COMPLETE) loadStatus.value = Constants.STATUS_LOADING
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
                 try {
                     val userData = repository.getPhotosList()
                     photosList.postValue(userData)
-                    loadStatus.postValue(Constants.STATUS_COMPLETE)
+                    if (status != Constants.STATUS_COMPLETE)
+                        loadStatus.postValue(Constants.STATUS_COMPLETE)
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    loadStatus.postValue(Constants.STATUS_ERROR)
+                    if (status != Constants.STATUS_COMPLETE)
+                        loadStatus.postValue(Constants.STATUS_ERROR)
                 }
             }
         }
