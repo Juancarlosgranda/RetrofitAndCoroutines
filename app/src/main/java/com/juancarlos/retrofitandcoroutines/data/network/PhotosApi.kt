@@ -5,6 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface PhotosApi {
-    @GET("photos")
+    @GET("Juancarlosgranda/json_server/photos")
     suspend fun getPhotos(): Response<List<PhotosModel>>
 }

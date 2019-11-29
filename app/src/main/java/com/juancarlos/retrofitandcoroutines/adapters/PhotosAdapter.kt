@@ -1,5 +1,6 @@
 package com.juancarlos.retrofitandcoroutines.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,7 @@ class PhotosAdapter (context: Context, private var photoList: List<PhotosModel>)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is ReceptionViewHolder -> {
-                holder.bind(items.get(position))
+                holder.bind(items[position])
 //                holder.itemView.setOnClickListener{
 //                    Toast.makeText(activity,"clicked " + position, Toast.LENGTH_SHORT).show()
 //                    Log.d(TAG,"ITEM: "+ " : "+holder.reception_shipment.text)
@@ -55,10 +56,17 @@ class PhotosAdapter (context: Context, private var photoList: List<PhotosModel>)
 
         val title = itemView.text_title
         val subtitle = itemView.text_receiver
+        val cert_name = itemView.text_cert_name
 
+        @SuppressLint("SetTextI18n")
         fun bind(photoModel: PhotosModel){
             title.text = photoModel.title
             subtitle.text = photoModel.url
+//            photoModel.certification.forEach{
+//                cert_name.text = it.name
+//            }
+            cert_name.text =  "${photoModel.certification[0].name} - ${photoModel.certification[0].enterprise[0].name}"
+
         }
     }
 

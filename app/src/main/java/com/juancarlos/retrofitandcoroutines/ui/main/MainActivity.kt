@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        model = ViewModelProviders.of(this,
-            MainViewModelFactory(application)
-        ).get(MainActivityViewModel::class.java)
+        model = ViewModelProviders.of(this, MainViewModelFactory(application)).get(MainActivityViewModel::class.java)
         getloadingStatus()
         getData()
     }

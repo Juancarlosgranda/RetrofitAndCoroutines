@@ -1,5 +1,6 @@
 package com.juancarlos.retrofitandcoroutines.data
 
+import android.util.Log
 import com.juancarlos.retrofitandcoroutines.data.model.PhotosModel
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -12,6 +13,7 @@ class PhotosRepository(val dataSource: PhotosDataSource) {
     suspend fun getPhotosList(): List<PhotosModel>? {
         // handle login
         val response = dataSource.getPhotos()
+        Log.d("cuack","result: ${response.body()}")
         if (response.isSuccessful) {
             photoList = response.body()
         } else {
